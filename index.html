@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>نور المعرفة</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,Tahoma,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:
+        radial-gradient(circle at top,#243b35 0,#101916 42%,#080c0b 100%);
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+.app{
+    width:100%;
+    max-width:850px;
+    min-height:680px;
+    background:rgba(15,24,21,.94);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:30px;
+    box-shadow:0 25px 80px rgba(0,0,0,.5);
+    overflow:hidden;
+    position:relative;
+}
+
+.header{
+    padding:25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:1px solid rgba(255,255,255,.07);
+}
+
+.brand{
+    font-size:22px;
+    font-weight:900;
+}
+
+.brand span{
+    display:block;
+    font-size:12px;
+    opacity:.55;
+    margin-top:5px;
+    letter-spacing:1px;
+}
+
+.stats{
+    display:flex;
+    gap:10px;
+}
+
+.stat{
+    background:rgba(255,255,255,.06);
+    border-radius:15px;
+    padding:10px 15px;
+    text-align:center;
+    min-width:80px;
+}
+
+.stat small{
+    display:block;
+    opacity:.55;
+    font-size:11px;
+}
+
+.stat b{
+    font-size:18px;
+}
+
+.screen{
+    padding:35px;
+}
+
+.welcome{
+    text-align:center;
+    padding:35px 10px;
+}
+
+.logo{
+    width:90px;
+    height:90px;
+    margin:auto;
+    border-radius:28px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:42px;
+    background:linear-gradient(135deg,#d4af37,#8e7020);
+    box-shadow:0 15px 40px rgba(212,175,55,.2);
+}
+
+h1{
+    margin-top:25px;
+    font-size:42px;
+}
+
+.subtitle{
+    opacity:.65;
+    margin-top:12px;
+    line-height:1.8;
+}
+
+.questionBox{
+    margin-top:20px;
+}
+
+.category{
+    display:inline-block;
+    padding:8px 14px;
+    border-radius:100px;
+    background:rgba(212,175,55,.12);
+    color:#e5c45d;
+    font-size:13px;
+    margin-bottom:18px;
+}
+
+.question{
+    font-size:27px;
+    line-height:1.7;
+    font-weight:800;
+    margin-bottom:25px;
+}
+
+.answers{
+    display:grid;
+    gap:13px;
+}
+
+.answer{
+    width:100%;
+    border:1px solid rgba(255,255,255,.09);
+    background:rgba(255,255,255,.045);
+    color:white;
+    padding:17px;
+    border-radius:17px;
+    font-size:17px;
+    cursor:pointer;
+    transition:.2s;
+    text-align:right;
+}
+
+.answer:hover{
+    transform:translateY(-2px);
+    background:rgba(255,255,255,.09);
+    border-color:rgba(212,175,55,.5);
+}
+
+.answer.correct{
+    background:rgba(44,180,105,.2);
+    border-color:#39d98a;
+}
+
+.answer.wrong{
+    background:rgba(220,65,65,.2);
+    border-color:#ff6565;
+}
+
+.mainButton{
+    border:0;
+    color:#111;
+    background:linear-gradient(135deg,#f1d36b,#b99225);
+    padding:16px 28px;
+    border-radius:17px;
+    font-size:17px;
+    font-weight:900;
+    cursor:pointer;
+    margin-top:25px;
+    box-shadow:0 12px 30px rgba(212,175,55,.2);
+}
+
+.mainButton:hover{
+    transform:translateY(-2px);
+}
+
+.progress{
+    height:7px;
+    background:rgba(255,255,255,.06);
+    border-radius:20px;
+    overflow:hidden;
+    margin-bottom:25px;
+}
+
+.progress div{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,#d4af37,#f3dd7d);
+    transition:.3s;
+}
+
+.result{
+    text-align:center;
+    padding:40px 10px;
+}
+
+.result .big{
+    font-size:70px;
+}
+
+.result h2{
+    font-size:32px;
+    margin:15px;
+}
+
+.hidden{
+    display:none;
+}
+
+.credit{
+    text-align:center;
+    padding:18px;
+    opacity:.35;
+    font-size:12px;
+    border-top:1px solid rgba(255,255,255,.05);
+}
+
+@media(max-width:600px){
+    .app{
+        border-radius:22px;
+    }
+
+    .header{
+        padding:18px;
+    }
+
+    .screen{
+        padding:22px;
+    }
+
+    h1{
+        font-size:32px;
+    }
+
+    .question{
+        font-size:22px;
+    }
+
+    .stats{
+        gap:5px;
+    }
+
+    .stat{
+        min-width:60px;
+        padding:8px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header class="header">
+    <div class="brand">
+        🕌 نور المعرفة
+        <span>اختبر معلوماتك الدينية</span>
+    </div>
+
+    <div class="stats">
+        <div class="stat">
+            <small>النقاط</small>
+            <b id="score">0</b>
+        </div>
+
+        <div class="stat">
+            <small>🔥 متتالية</small>
+            <b id="streak">0</b>
+        </div>
+    </div>
+</header>
+
+<main class="screen">
+
+<section id="welcome" class="welcome">
+
+    <div class="logo">☪</div>
+
+    <h1>هل أنت مستعد؟</h1>
+
+    <p class="subtitle">
+        أجب عن الأسئلة الدينية واختبر معلوماتك.<br>
+        كل إجابة صحيحة تمنحك نقاطًا وتزيد متتالية إجاباتك.
+    </p>
+
+    <button class="mainButton" onclick="startGame()">
+        ابدأ الاختبار
+    </button>
+
+</section>
+
+
+<section id="game" class="hidden">
+
+    <div class="progress">
+        <div id="progressBar"></div>
+    </div>
+
+    <div class="questionBox">
+
+        <span id="category" class="category">
+            سؤال ديني
+        </span>
+
+        <div id="question" class="question">
+        </div>
+
+        <div id="answers" class="answers">
+        </div>
+
+    </div>
+
+</section>
+
+
+<section id="result" class="result hidden">
+
+    <div class="big">🏆</div>
+
+    <h2>انتهت الجولة!</h2>
+
+    <p>
+        نتيجتك:
+        <strong id="finalScore">0</strong>
+        نقطة
+    </p>
+
+    <p style="margin-top:10px;opacity:.6">
+        أعلى نتيجة:
+        <strong id="bestScore">0</strong>
+    </p>
+
+    <button class="mainButton" onclick="startGame()">
+        جولة جديدة
+    </button>
+
+</section>
+
+</main>
+
+<div class="credit">
+    MADE BY MOUHAMEDOU
+</div>
+
+</div>
+
+
+<script>
+
+const questions = [
+
+{
+q:"كم عدد أركان الإسلام؟",
+a:["ثلاثة","خمسة","ستة","سبعة"],
+correct:1,
+cat:"الإسلام"
+},
+
+{
+q:"ما أول أركان الإسلام؟",
+a:["الصلاة","الزكاة","الشهادتان","الصوم"],
+correct:2,
+cat:"الإسلام"
+},
+
+{
+q:"كم عدد الصلوات المفروضة في اليوم والليلة؟",
+a:["ثلاث","أربع","خمس","ست"],
+correct:2,
+cat:"الصلاة"
+},
+
+{
+q:"ما الشهر الذي يصوم فيه المسلمون؟",
+a:["رجب","رمضان","شعبان","محرم"],
+correct:1,
+cat:"الصيام"
+},
+
+{
+q:"ما اسم الكتاب الذي أنزله الله على محمد ﷺ؟",
+a:["التوراة","الإنجيل","الزبور","القرآن"],
+correct:3,
+cat:"القرآن"
+},
+
+{
+q:"ما أول سورة في المصحف؟",
+a:["البقرة","الفاتحة","الإخلاص","الناس"],
+correct:1,
+cat:"القرآن"
+},
+
+{
+q:"ما أطول سورة في القرآن؟",
+a:["البقرة","آل عمران","النساء","المائدة"],
+correct:0,
+cat:"القرآن"
+},
+
+{
+q:"ما أقصر سورة في القرآن من حيث عدد الآيات؟",
+a:["الفلق","العصر","الكوثر","الإخلاص"],
+correct:2,
+cat:"القرآن"
+},
+
+{
+q:"من هو خاتم الأنبياء والمرسلين؟",
+a:["موسى عليه السلام","عيسى عليه السلام","محمد ﷺ","إبراهيم عليه السلام"],
+correct:2,
+cat:"الأنبياء"
+},
+
+{
+q:"من هو أول البشر؟",
+a:["نوح عليه السلام","آدم عليه السلام","إبراهيم عليه السلام","يوسف عليه السلام"],
+correct:1,
+cat:"الأنبياء"
+},
+
+{
+q:"من هو النبي الذي ابتلعه الحوت؟",
+a:["يونس عليه السلام","موسى عليه السلام","أيوب عليه السلام","هود عليه السلام"],
+correct:0,
+cat:"الأنبياء"
+},
+
+{
+q:"من هو النبي الذي كلمه الله؟",
+a:["يوسف عليه السلام","موسى عليه السلام","نوح عليه السلام","صالح عليه السلام"],
+correct:1,
+cat:"الأنبياء"
+},
+
+{
+q:"ما اسم والد النبي إبراهيم عليه السلام المذكور في القرآن؟",
+a:["آزر","عمران","يعقوب","عبدالله"],
+correct:0,
+cat:"الأنبياء"
+},
+
+{
+q:"من هو والد النبي يوسف عليه السلام؟",
+a:["إسحاق","يعقوب","إبراهيم","نوح"],
+correct:1,
+cat:"الأنبياء"
+},
+
+{
+q:"ما اسم أم المؤمنين التي كانت أول زوجة للنبي ﷺ؟",
+a:["عائشة رضي الله عنها","حفصة رضي الله عنها","خديجة رضي الله عنها","صفية رضي الله عنها"],
+correct:2,
+cat:"السيرة"
+},
+
+{
+q:"أين وُلد النبي محمد ﷺ؟",
+a:["المدينة","الطائف","مكة","القدس"],
+correct:2,
+cat:"السيرة"
+},
+
+{
+q:"إلى أي مدينة هاجر النبي ﷺ؟",
+a:["المدينة المنورة","الطائف","دمشق","القدس"],
+correct:0,
+cat:"السيرة"
+},
+
+{
+q:"ما اسم الغار الذي كان يتعبد فيه النبي ﷺ؟",
+a:["غار ثور","غار حراء","غار أحد","غار النور"],
+correct:1,
+cat:"السيرة"
+},
+
+{
+q:"ما اسم أول مسجد أسسه النبي ﷺ بعد الهجرة؟",
+a:["المسجد النبوي","مسجد قباء","المسجد الحرام","المسجد الأقصى"],
+correct:1,
+cat:"السيرة"
+},
+
+{
+q:"في أي شهر يكون الحج؟",
+a:["رمضان","شوال","ذو الحجة","محرم"],
+correct:2,
+cat:"الحج"
+},
+
+{
+q:"إلى أين يتجه المسلمون في الصلاة؟",
+a:["المسجد النبوي","الكعبة","المسجد الأقصى","جبل عرفات"],
+correct:1,
+cat:"الصلاة"
+},
+
+{
+q:"كم عدد أركان الإيمان؟",
+a:["أربعة","خمسة","ستة","سبعة"],
+correct:2,
+cat:"العقيدة"
+},
+
+{
+q:"الإيمان بالملائكة من ماذا؟",
+a:["أركان الإسلام","أركان الإيمان","سنن الصلاة","واجبات الحج"],
+correct:1,
+cat:"العقيدة"
+},
+
+{
+q:"من هو الملك الموكل بالوحي؟",
+a:["ميكائيل","إسرافيل","جبريل","مالك"],
+correct:2,
+cat:"الملائكة"
+},
+
+{
+q:"من هو الملك الموكل بالنفخ في الصور؟",
+a:["جبريل","إسرافيل","ميكائيل","مالك"],
+correct:1,
+cat:"الملائكة"
+},
+
+{
+q:"من هو الملك الموكل بالنار؟",
+a:["مالك","جبريل","ميكائيل","إسرافيل"],
+correct:0,
+cat:"الملائكة"
+},
+
+{
+q:"ما اسم الصلاة التي تكون في آخر الليل؟",
+a:["الضحى","الوتر","العصر","الإشراق"],
+correct:1,
+cat:"الصلاة"
+},
+
+{
+q:"ما الصلاة التي تكون بعد غروب الشمس؟",
+a:["الفجر","الظهر","المغرب","العشاء"],
+correct:2,
+cat:"الصلاة"
+},
+
+{
+q:"ما الصلاة التي تكون عند طلوع الفجر؟",
+a:["الفجر","العصر","المغرب","العشاء"],
+correct:0,
+cat:"الصلاة"
+},
+
+{
+q:"ما الصلاة التي تكون في منتصف النهار؟",
+a:["الفجر","الظهر","العصر","المغرب"],
+correct:1,
+cat:"الصلاة"
+},
+
+{
+q:"ما الصلاة التي تكون بعد الظهر وقبل المغرب؟",
+a:["الفجر","العصر","العشاء","الوتر"],
+correct:1,
+cat:"الصلاة"
+},
+
+{
+q:"ما اسم ليلة عظيمة في شهر رمضان؟",
+a:["ليلة القدر","ليلة الجمعة","ليلة عرفة","ليلة النحر"],
+correct:0,
+cat:"رمضان"
+},
+
+{
+q:"ما السورة التي تبدأ بـ الحمد لله رب العالمين؟",
+a:["الفاتحة","البقرة","الناس","الكوثر"],
+correct:0,
+cat:"القرآن"
+},
+
+{
+q:"ما السورة التي تُسمى أم الكتاب؟",
+a:["الفاتحة","البقرة","يس","الإخلاص"],
+correct:0,
+cat:"القرآن"
+},
+
+{
+q:"ما اسم والد النبي محمد ﷺ؟",
+a:["عبدالمطلب","عبدالله","أبو طالب","حمزة"],
+correct:1,
+cat:"السيرة"
+},
+
+{
+q:"ما اسم جد النبي محمد ﷺ؟",
+a:["عبدالمطلب","عبدالله","أبو طالب","العباس"],
+correct:0,
+cat:"السيرة"
+},
+
+{
+q:"من هو أول الخلفاء الراشدين؟",
+a:["عمر بن الخطاب","عثمان بن عفان","أبو بكر الصديق","علي بن أبي طالب"],
+correct:2,
+cat:"التاريخ الإسلامي"
+},
+
+{
+q:"من هو ثاني الخلفاء الراشدين؟",
+a:["أبو بكر الصديق","عمر بن الخطاب","عثمان بن عفان","علي بن أبي طالب"],
+correct:1,
+cat:"التاريخ الإسلامي"
+},
+
+{
+q:"من هو ثالث الخلفاء الراشدين؟",
+a:["علي بن أبي طالب","عثمان بن عفان","عمر بن الخطاب","أبو بكر الصديق"],
+correct:1,
+cat:"التاريخ الإسلامي"
+},
+
+{
+q:"من هو رابع الخلفاء الراشدين؟",
+a:["علي بن أبي طالب","عثمان بن عفان","عمر بن الخطاب","أبو بكر الصديق"],
+correct:0,
+cat:"التاريخ الإسلامي"
+},
+
+{
+q:"ما اسم المدينة التي يوجد فيها المسجد النبوي؟",
+a:["مكة","المدينة المنورة","الطائف","القدس"],
+correct:1,
+cat:"أماكن إسلامية"
+},
+
+{
+q:"ما اسم المسجد الموجود في مكة؟",
+a:["المسجد الأقصى","المسجد النبوي","المسجد الحرام","مسجد قباء"],
+correct:2,
+cat:"أماكن إسلامية"
+},
+
+{
+q:"ما اسم المسجد الموجود في القدس؟",
+a:["المسجد الحرام","المسجد النبوي","المسجد الأقصى","مسجد قباء"],
+correct:2,
+cat:"أماكن إسلامية"
+}
+
+];
+
+let score = 0;
+let streak = 0;
+let current = 0;
+let roundQuestions = [];
+
+const scoreEl = document.getElementById("score");
+const streakEl = document.getElementById("streak");
+
+function shuffle(array){
+    return [...array].sort(()=>Math.random()-0.5);
+}
+
+function startGame(){
+
+    score = 0;
+    streak = 0;
+    current = 0;
+
+    scoreEl.textContent = score;
+    streakEl.textContent = streak;
+
+    roundQuestions = shuffle(questions);
+
+    document.getElementById("welcome").classList.add("hidden");
+    document.getElementById("result").classList.add("hidden");
+    document.getElementById("game").classList.remove("hidden");
+
+    showQuestion();
+}
+
+function showQuestion(){
+
+    const item = roundQuestions[current];
+
+    document.getElementById("category").textContent = item.cat;
+    document.getElementById("question").textContent = item.q;
+
+    const answers = document.getElementById("answers");
+    answers.innerHTML = "";
+
+    const shuffled = item.a.map((text,index)=>({
+        text,
+        original:index
+    }));
+
+    shuffle(shuffled).forEach(answer=>{
+
+        const button = document.createElement("button");
+
+        button.className = "answer";
+        button.textContent = answer.text;
+
+        button.onclick = ()=>{
+            answerQuestion(button,answer.original,item.correct);
+        };
+
+        answers.appendChild(button);
+    });
+
+    const progress =
+        (current / roundQuestions.length) * 100;
+
+    document.getElementById("progressBar").style.width =
+        progress + "%";
+}
+
+function answerQuestion(button,selected,correct){
+
+    const buttons =
+        document.querySelectorAll(".answer");
+
+    buttons.forEach(b=>b.disabled=true);
+
+    if(selected === correct){
+
+        button.classList.add("correct");
+
+        streak++;
+
+        let points = 10;
+
+        if(streak >= 3){
+            points += 5;
+        }
+
+        score += points;
+
+    }else{
+
+        button.classList.add("wrong");
+
+        streak = 0;
+
+        buttons.forEach(b=>{
+
+            if(b.textContent ===
+                roundQuestions[current].a[correct]){
+
+                b.classList.add("correct");
+            }
+
+        });
+    }
+
+    scoreEl.textContent = score;
+    streakEl.textContent = streak;
+
+    setTimeout(()=>{
+
+        current++;
+
+        if(current >= roundQuestions.length){
+
+            finishGame();
+
+        }else{
+
+            showQuestion();
+
+        }
+
+    },850);
+}
+
+function finishGame(){
+
+    document.getElementById("game").classList.add("hidden");
+    document.getElementById("result").classList.remove("hidden");
+
+    document.getElementById("finalScore").textContent = score;
+
+    let best =
+        Number(localStorage.getItem("bestScore") || 0);
+
+    if(score > best){
+
+        best = score;
+
+        localStorage.setItem(
+            "bestScore",
+            best
+        );
+    }
+
+    document.getElementById("bestScore").textContent = best;
+}
+
+</script>
+
+</body>
+</html>
